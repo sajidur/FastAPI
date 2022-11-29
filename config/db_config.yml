@@ -1,0 +1,5 @@
+echo: False
+db:
+  type: "postgresql"
+  host: "db-host"
+  database: "my_db"
