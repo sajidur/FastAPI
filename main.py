@@ -1,5 +1,7 @@
 from ast import Bytes
 from base64 import decodebytes
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from typing import Union
 from paramiko import SSHClient
 from fastapi import FastAPI
@@ -38,6 +40,8 @@ def post():
     stdout.close()
     stderr.close()
     client.close()
+    json_compatible_item_data = jsonable_encoder(stdout.channel.recv_exit_status())
+    return JSONResponse(content=json_compatible_item_data)
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
