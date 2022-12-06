@@ -11,9 +11,10 @@ import paramiko
 
 sshCltr = APIRouter()
 
-@sshCltr.get("/")
+@sshCltr.get("/ssh/getallcommand")
 def read_root():
-    return {"Hello": host_conf}
+    result= conn.execute(commands.select()).first()
+    return {result}
 
 @sshCltr.post("/ssh/execute", description="Execute a SSH Script")
 def execute(ssh: SSHExecute):
