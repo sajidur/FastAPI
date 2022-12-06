@@ -1,5 +1,6 @@
 echo: False
-db:
-  type: "postgresql"
-  host: "db-host"
-  database: "my_db"
+server:
+  host: "mysql5044.site4now.net"
+  database: "db_a66689_dhc"
+  user: "a66689_dhc"
+  password: "Rootpass1"
