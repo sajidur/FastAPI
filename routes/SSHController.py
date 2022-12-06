@@ -2,7 +2,7 @@ from fastapi import APIRouter
 from paramiko import SSHClient
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
-from schemas.ssh_execute import SSHExecute
+from view_model.ssh_execute import SSHExecute
 from config.db import conn
 from models.command import commands
 from config.ssh_config import host_conf,password_conf,user_conf
