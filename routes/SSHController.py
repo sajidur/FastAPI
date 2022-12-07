@@ -13,8 +13,8 @@ sshCltr = APIRouter()
 
 @sshCltr.get("/ssh/getallcommand")
 def read_root():
-    result= conn.execute(commands.select()).first()
-    return {result}
+    result= conn.execute(commands.select()).all()
+    return result
 
 @sshCltr.post("/ssh/execute", description="Execute a SSH Script")
 def execute(ssh: SSHExecute):

@@ -12,3 +12,6 @@ app = FastAPI(
 
 app.include_router(userCltr)
 app.include_router(sshCltr)
+
+
+#python -m uvicorn app:app --reload
