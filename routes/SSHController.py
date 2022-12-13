@@ -2,9 +2,12 @@ from fastapi import APIRouter
 from paramiko import SSHClient
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
+from view_model.category_command_response import category_command_response
 from view_model.ssh_execute import SSHExecute
+from view_model.categoryModel import categoryModel
 from config.db import conn
 from models.command import commands
+from models.category import category
 from config.ssh_config import host_conf,password_conf,user_conf
 import paramiko
 
@@ -15,6 +18,17 @@ sshCltr = APIRouter()
 def read_root():
     result= conn.execute(commands.select()).all()
     return result
+
+@sshCltr.get("/ssh/getallcategory")
+def getallcategory():
+    result= conn.execute(category.select()).all()
+    return result
+
+@sshCltr.post("/ssh/addcategory",description="add a Script category")
+def addcategory(cat:categoryModel):
+      new_command = {"name": cat.name, "descriptions": cat.descriptions}
+      result = conn.execute(category.insert().values(new_command))
+      return conn.execute(category.select().where(category.c.id == result.lastrowid)).first()
 
 @sshCltr.post("/ssh/execute", description="Execute a SSH Script")
 def execute(ssh: SSHExecute):
@@ -45,7 +59,7 @@ def execute(ssh: SSHExecute):
 
 @sshCltr.post("/ssh/add", tags=["SSHExecutes"], response_model=SSHExecute, description="Create a new ssh command")
 def create_user(ssh: SSHExecute):
-    new_command = {"name": ssh.name, "command": ssh.command}
+    new_command = {"name": ssh.name, "command": ssh.command,"categoryId":ssh.categoryId}
     result = conn.execute(commands.insert().values(new_command))
     return conn.execute(commands.select().where(commands.c.id == result.lastrowid)).first()
 

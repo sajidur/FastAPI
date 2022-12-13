@@ -3,3 +3,4 @@ class SSHExecute(BaseModel):
     id: int
     name: str
     command:str
+    categoryId: int
