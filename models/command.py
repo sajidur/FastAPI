@@ -11,7 +11,7 @@ commands = Table(
         String(255),
     ),
     Column("command", String(2000)),
-    Column("categoryId", Integer,ForeignKey('Category.id')),
+    Column("categoryId", Integer),
 )
 
 meta.create_all(engine)
